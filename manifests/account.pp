@@ -127,7 +127,7 @@ define accounts::account(
         #
         # TODO: Fix unless so that it replaces the key
         exec { "create ssh dir for user ${user}":
-          command => "/bin/mkdir -p ~${user}/.ssh",
+          command => "/bin/mkdir -p ~${user}/.ssh; /bin/chown ${user}.${user} ~${user}/.ssh",
           unless  => "/usr/bin/test -d ~${user}/.ssh",
         } ->
         
