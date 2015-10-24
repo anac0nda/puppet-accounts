@@ -129,12 +129,12 @@ define accounts::account(
         exec { "create ssh dir for user ${user}":
           command => "/bin/mkdir -p ~${user}/.ssh",
           unless  => "/usr/bin/test -d ~${user}/.ssh",
-        }
+        } ->
         
         exec { "put ssh public key ${name} for user ${user}":
           command => "/bin/echo 'ssh-rsa ${::accounts::ssh_keys[$name]['public']}' > ~${user}/.ssh/id_rsa.pub; /bin/chown ${user} ~${user}/.ssh/id_rsa.pub; /bin/chmod 600 ~${user}/.ssh/id_rsa.pub",
           unless  => "/usr/bin/test -f ~${user}/.ssh/id_rsa.pub",
-        }
+        } ->
         
         exec { "put ssh private key ${name} for user ${user}":
           command => "/bin/echo '${::accounts::ssh_keys[$name]['private']}' > ~${user}/.ssh/id_rsa; /bin/chown ${user} ~${user}/.ssh/id_rsa; /bin/chmod 600 ~${user}/.ssh/id_rsa",
